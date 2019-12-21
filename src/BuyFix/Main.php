@@ -30,14 +30,14 @@ class Main extends PluginBase implements Listener{
     }
     
     public function onCommand(CommandSender $sender, Command $command, String $label, array $args) : bool {
-        if($command->getName() === "buyfix"){
+        if($command->getName() === "fix"){
           if(!$sender instanceof Player){
             $sender->sendMessage("Please use command in game!");
             return true;
           }
           $economy = EconomyAPI::getInstance();
           $mymoney = $economy->myMoney($sender);
-          $cash = $this->getConfig()->get("price-buyfix");
+          $cash = $this->getConfig()->get("price-fix");
           if($mymoney >= $cash){
             $economy->reduceMoney($sender, $cash);
             $item = $sender->getInventory()->getItemInHand();
@@ -55,15 +55,15 @@ class Main extends PluginBase implements Listener{
 						        }
 						     }
 					      $sender->getInventory()->addItem($newitem);
-					      $sender->sendMessage("§a" . $item->getName() . " Have been fixed now!");
+					      $sender->addTitle("§a" . $item->getName() . " §ais fixed!");
 					      return true;
 					    } else {
-				        	$sender->sendMessage("§cPlease hold armor or item in your hand!");
+				        	$sender->sendMessage("§8(§c!§8)§cPlease hold a piece of armor or an item in your hand!");
 					        return false;
 					    }
             return true;
           } else {
-            $sender->sendMessage("§cYou have not enough money for $cash to buy fix.");
+            $sender->sendMessage("§8(§c!§8)§cYou do not have not enough money for $cash to fix your item.");
             return true;
           }
         }
